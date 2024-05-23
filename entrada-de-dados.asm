@@ -36,6 +36,13 @@ _start:
   mov ECX, nome
   mov EDX, 0xA
   int CHAMADA_SistemaOperacional
+  
+  ; ESCREVE o nome da SAIDA padrão
+  mov EAX, ESCREVER
+  mov EBX, SAIDA
+  mov ECX, nome
+  mov EDX, 0xA
+  int CHAMADA_SistemaOperacional
 
   ; Finaliza o programa
   mov EAX, SAIR
