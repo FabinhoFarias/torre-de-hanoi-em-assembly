@@ -1,15 +1,15 @@
 segment .data ; Lida com os dados na memória principal
    
-    mensagem_inicial db 'Digite a quantidade de discos: ', 0xa
+    mensagem_inicial db 'Digite a quantidade de discos: ', LF
     len_mensagem equ $ - mensagem_inicial
     
     exibir1 db 'Algoritmo da Torre de Hanoi com "'
     len_exb1 equ $ - exibir1
     
-    exibir2 db '" discos', 0xa
+    exibir2 db '" discos', LF
     len_exb2 equ $ - exibir2
     
-    inv db 'Caracter invalido! (insira um valor entre 1 e 9)', 0xa
+    inv db 'Caracter invalido! (insira um valor entre 1 e 9)', LF
     len_inv equ $ - inv
 
     mensagem_final:
@@ -18,10 +18,10 @@ segment .data ; Lida com os dados na memória principal
                           db " da torre "
         torre_origem:     db " "
                           db " para a torre "     
-        torre_destino:    db " ", 0xa
+        torre_destino:    db " ", LF
     len_f equ $ - mensagem_final
         
-    concluido db 'Concluido!', 0xa
+    concluido db 'Concluido!', LF
     len_c equ $ - concluido
 
   LF                  equ 0xA                    ; Nova Linha
@@ -73,7 +73,7 @@ _start:
     mov eax, ESCREVER
     mov ebx, SAIDA
     mov ecx, n
-    mov edx, 1  ; Tamanho de um caractere
+    mov edx, 1  ; Tamanho de um caractere 
     int CHAMADA_SistemaOperacional
     
     mov eax, ESCREVER
@@ -113,11 +113,11 @@ _start:
 str_para_int:
     xor eax, eax ; Limpando o registrador eax
     xor ecx, ecx
-    mov ebx, 10
+    mov ebx, LF 
     
-    .loop:
+    .loop: ; converte para retirar os 0s da string de entrada
         movzx ecx, byte [edx]
-        cmp ecx, 0xa
+        cmp ecx, LF
         je .done ; Se encontrar newline, termina
         inc edx
         cmp ecx, '0'
