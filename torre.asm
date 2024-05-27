@@ -24,7 +24,6 @@ segment .data ; Lida com os dados na memória principal
     concluido db 'Concluido!', 0xa
     len_c equ $ - concluido
 
-segment .data ; Novo segmento de dados a ser inserido
   LF                  equ 0xA                    ; Nova Linha
   CHAMADA_SistemaOperacional equ 0x80            ; Envia informação ao SO
   ; EAX
@@ -38,8 +37,6 @@ segment .data ; Novo segmento de dados a ser inserido
 
 section .bss
     n resb 5 ; Reserva o espaço na memória para o número que o usuário vai digitar
-    numero_1   resb 32                    ; Reservando 32 bytes para o numero 1
-    numero_2   resb 32                    ; Reservando 32 bytes para o numero 2
 
 section .text ; Instruções
     global _start ; Declarar como global serve para que a função fique visível fora do arquivo "principal"
@@ -148,8 +145,8 @@ invalido:
     jmp _start
 
 torre_hanoi:
-    push ebp ; Salva o registrador ebp na pilha
-    mov ebp, esp ; Ebp recebe o endereço do topo da pilha
+    push ebp        ; Salva o registrador ebp na pilha
+    mov ebp, esp    ; Ebp recebe o endereço do topo da pilha
 
     mov eax, [ebp+8] ; Pega o a posição do primeiro elemento
     cmp eax, 0
