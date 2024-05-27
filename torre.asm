@@ -35,7 +35,7 @@ segment .data ; Lida com os dados na memória principal
   ENTRADA             equ 0x0                    ; Entrada padrão
   SAIDA               equ 0x1                    ; Saída padrão
 
-section .bss
+section .bss ; Reserva de memória
     n resb 5 ; Reserva o espaço na memória para o número que o usuário vai digitar
 
 section .text ; Instruções
@@ -85,15 +85,15 @@ _start:
     mov edx, n                  
     call str_para_int
 
-    cmp eax, 1
+    cmp eax, SAIDA
     jl invalido
     cmp eax, 9
     jg invalido
     
     ; 3 pilhas
-    push dword 18 ; torre auxiliar, o valor é o endereço da pilha
-    push dword 19 ; torre destino
-    push dword 17 ; torre de origem
+    push dword 18 ; torre auxiliar, o valor é o endereço da pilha B
+    push dword 19 ; torre destino C
+    push dword 17 ; torre de origem A
     push eax ; eax na pilha
 
     call torre_hanoi
@@ -131,7 +131,7 @@ str_para_int:
         jmp .loop
     
     .done:
-        test eax, eax
+        test eax, eax ; Se for 0 está inválido
         jz invalido
         ret
 
@@ -148,7 +148,7 @@ torre_hanoi:
     push ebp        ; Salva o registrador ebp na pilha
     mov ebp, esp    ; Ebp recebe o endereço do topo da pilha
 
-    mov eax, [ebp+8] ; Pega o a posição do primeiro elemento
+    mov eax, [ebp+8] ; Pega o a posição do primeiro elemento, Endereço da pilha
     cmp eax, 0
     jle fim ; Caso eax for menor ou igual a 0, vai para o fim
     
@@ -158,7 +158,7 @@ torre_hanoi:
     push dword [ebp+12] ; Coloca na pilha a torre de origem
     push dword eax ; Põe eax na pilha
     call torre_hanoi
-
+    ; 
     add esp, 16 ; Libera 16 bytes de espaço
     push dword [ebp+16] ; Pega o pino de origem referenciado pelo parâmetro ebp+16
     push dword [ebp+12] ; Coloca na pilha o pino de origem
@@ -166,6 +166,7 @@ torre_hanoi:
     call imprime
 
     add esp, 12 ; Libera mais 12 bytes de espaço
+    ;ascii
     push dword [ebp+12] ; Coloca na pilha a torre origem
     push dword [ebp+16] ; Coloca na pilha a torre auxiliar
     push dword [ebp+20] ; Coloca na pilha a torre destino
